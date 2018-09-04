@@ -29,7 +29,7 @@ namespace WebdriverApiActions
             HomePage home = new HomePage(driver);
             home.goToPage();
             SmartphonesPage smartphones = home.Hover();
-                                    
+            
             Assert.AreEqual("https://www.ebay.com/rpp/GBH-DCP-Electronics-Cell", smartphones.GetUrl());
         }
         

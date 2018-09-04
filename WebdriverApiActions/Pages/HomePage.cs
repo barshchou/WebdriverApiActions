@@ -42,8 +42,8 @@ namespace WebdriverApiActions.Pages
             action.MoveToElement(electronics).Perform();
             action.MoveToElement(cellPhones).Perform();
             action.Click().Perform();
-
-            wait.Until(ExpectedConditions.UrlToBe("https://www.ebay.com/rpp/GBH-DCP-Electronics-Cell"));
+            
+            //wait.Until(ExpectedConditions.UrlToBe("https://www.ebay.com/rpp/GBH-DCP-Electronics-Cell"));
 
             return new SmartphonesPage(driver);
         }
