@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OpenQA.Selenium.Interactions;
+using WebdriverApiActions.Pages;
 
 namespace WebdriverApiActions.Helpers
 {
@@ -13,7 +14,12 @@ namespace WebdriverApiActions.Helpers
         private IWebDriver driver;
 
         Actions action;
-        
+
+        public ActionsHelper(IWebDriver driver)
+        {
+            this.driver = driver;
+        }
+
         public void Hover(IWebElement webElement)
         {
             action = new Actions(driver);
@@ -31,7 +37,5 @@ namespace WebdriverApiActions.Helpers
             action = new Actions(driver);
             action.SendKeys(webElement, text).Perform();
         }
-
-
     }
 }

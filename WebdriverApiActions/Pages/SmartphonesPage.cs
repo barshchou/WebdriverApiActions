@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WebdriverApiActions.Helpers;
 
 namespace WebdriverApiActions.Pages
 {
@@ -13,12 +14,14 @@ namespace WebdriverApiActions.Pages
     {
         IWebDriver driver;
         private WebDriverWait wait;
+        private ActionsHelper actionsHelper;
 
         public SmartphonesPage(IWebDriver driver)
         {
             this.driver = driver;
             wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
             PageFactory.InitElements(driver, this);
+            actionsHelper = new ActionsHelper(driver);
         }
 
         public string GetUrl()
@@ -26,5 +29,28 @@ namespace WebdriverApiActions.Pages
             return driver.Url;
         }
 
+        public SearchResultsPage GoToSearchResultsPage(IWebDriver driver)
+        {
+            categories.Click();
+            music.Click();
+            searchTextField.SendKeys("Скрипка");
+            searchButton.Click();
+            
+            //wait.Until(ExpectedConditions.UrlToBe("https://www.ebay.com/rpp/GBH-DCP-Electronics-Cell"));
+            
+            return new SearchResultsPage(driver);
+        }
+
+        [FindsBy(How = How.XPath, Using = ".//*[@id='gh-cat']")]
+        private IWebElement categories;
+
+        [FindsBy(How = How.XPath, Using = ".//*[@id='gh-cat']/option[@value='11233']")]
+        private IWebElement music;
+
+        [FindsBy(How = How.XPath, Using = ".//*[@id='gh-ac']")]
+        private IWebElement searchTextField;
+
+        [FindsBy(How = How.XPath, Using = ".//*[@id='gh-btn']")]
+        private IWebElement searchButton;
     }
 }

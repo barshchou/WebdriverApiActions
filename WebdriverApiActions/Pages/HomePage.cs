@@ -1,16 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OpenQA.Selenium.Support;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.PageObjects;
-using OpenQA.Selenium.Interactions;
-using System.Threading;
 using OpenQA.Selenium.Support.UI;
+using WebdriverApiActions.Helpers;
 
 namespace WebdriverApiActions.Pages
 {
@@ -21,14 +13,16 @@ namespace WebdriverApiActions.Pages
 
         //IWebDriver driver = new FirefoxDriver();
 
-        IWebDriver driver; //= new ChromeDriver();
+        IWebDriver driver;
         private WebDriverWait wait;
+        private ActionsHelper actionsHelper;
 
         public HomePage(IWebDriver driver)
         {
             this.driver = driver;
             wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
             PageFactory.InitElements(driver, this);
+            actionsHelper = new ActionsHelper(driver);
         }
 
         public void goToPage()
@@ -36,13 +30,12 @@ namespace WebdriverApiActions.Pages
             driver.Navigate().GoToUrl("https://ebay.com");
         }
 
-        public SmartphonesPage Hover()
+        public SmartphonesPage GoToSmartphonesPage(IWebDriver driver)
         {
-            Actions action = new Actions(driver);
-            action.MoveToElement(electronics).Perform();
-            action.MoveToElement(cellPhones).Perform();
-            action.Click().Perform();
-            
+            actionsHelper.Hover(electronics);
+            actionsHelper.Hover(cellPhones);
+            actionsHelper.Click(cellPhones);
+
             //wait.Until(ExpectedConditions.UrlToBe("https://www.ebay.com/rpp/GBH-DCP-Electronics-Cell"));
 
             return new SmartphonesPage(driver);
