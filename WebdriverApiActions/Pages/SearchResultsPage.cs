@@ -10,19 +10,14 @@ using WebdriverApiActions.Helpers;
 
 namespace WebdriverApiActions.Pages
 {
-    class SearchResultsPage : BaseHelper
+    class SearchResultsPage : BasePage
     {
         private ActionsHelper actionsHelper;
-        private BaseHelper baseHelper;
-
-        public SearchResultsPage(IWebDriver driver, WebDriverWait wait) : base(driver, wait)
+        
+        public SearchResultsPage(IWebDriver driver, WebDriverWait wait)
         {
             PageFactory.InitElements(driver, this);
-            baseHelper = new BaseHelper(driver, wait);
             actionsHelper = new ActionsHelper(driver, wait);
         }
-
-
-
     }
 }

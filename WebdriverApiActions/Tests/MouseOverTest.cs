@@ -32,25 +32,22 @@ namespace WebdriverApiActions
             }
             wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
             driver.Manage().Window.Maximize();
-            BaseHelper.Driver = driver;
-            BaseHelper.Wait = wait;
+            
         }
 
         [Test]
         public void SearchCellPhones()
         {
             HomePage home = new HomePage(driver, wait);
-            home.GoToPage();
+            home.GoToHomePage(driver);
             SmartphonesPage smartphones = home.GoToSmartphonesPage(driver);
-            
-            smartphones.WaitPageLoad();
+            smartphones.WaitPageLoad(driver, wait);
 
-            Assert.AreEqual("https://www.ebay.com/rpp/GBH-DCP-Electronics-Cell", smartphones.GetUrl());
+            Assert.AreEqual("https://www.ebay.com/rpp/GBH-DCP-Electronics-Cell", smartphones.GetUrl(driver));
 
-            //smartphones.GoToSearchResultsPage(driver);
+            SearchResultsPage searchResults = smartphones.GoToSearchResultsPage(driver);
 
-            Assert.IsTrue(smartphones.GoToSearchResultsPage(driver).IsElementPresent(By.Id("ResultSetItems")));
-
+            Assert.IsTrue(searchResults.IsElementPresent(driver, By.XPath("//div[contains(@id, 'esult') and contains(@class, 'clearfix')]/ul/li[1]"))); //
         }
         
         [TearDown]

@@ -6,27 +6,18 @@ using WebdriverApiActions.Helpers;
 
 namespace WebdriverApiActions.Pages
 {
-    class HomePage : BaseHelper
+    class HomePage : BasePage
     {
-        //private IWebDriver driver;
-        //private WebDriverWait wait;
         private ActionsHelper actionsHelper;
-        private BaseHelper baseHelper;
-        private string baseURL;
-                
-        public HomePage(IWebDriver driver, WebDriverWait wait) : base()
-        {           
-            PageFactory.InitElements(driver, this);
-            baseHelper = new BaseHelper();
-            actionsHelper = new ActionsHelper();
-        }
 
-        public void GoToPage()
+        public HomePage(IWebDriver driver, WebDriverWait wait)
         {
-            driver.Navigate().GoToUrl(baseURL);
+            
+            PageFactory.InitElements(driver, this);
+            actionsHelper = new ActionsHelper(driver, wait);
         }
 
-        public SmartphonesPage GoToSmartphonesPage(IWebDriver driver)
+        public SmartphonesPage GoToSmartphonesPage(IWebDriver driver) //
         {
             actionsHelper.Hover(electronics);
             actionsHelper.Hover(cellPhones);

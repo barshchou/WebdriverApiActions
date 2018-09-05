@@ -1,36 +1,46 @@
 ﻿using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using OpenQA.Selenium.Interactions;
-using WebdriverApiActions.Pages;
 using OpenQA.Selenium.Support.UI;
 
 namespace WebdriverApiActions.Helpers
 {
-   class ActionsHelper : BaseHelper
+    class ActionsHelper
     {
-        public Actions action;    
+        public Actions action;
+        protected IWebDriver driver;
+        protected WebDriverWait wait;
+
+        public ActionsHelper(IWebDriver driver, WebDriverWait wait)
+        {
+            this.driver = driver;
+            this.wait = wait;
+        }
 
         public void Hover(IWebElement webElement)
         {
-            Wait.Until(ExpectedConditions.ElementToBeClickable(webElement));          
-            action = new Actions(Driver);
+            WaitForElementClickable(webElement);          
+            action = new Actions(driver);
             action.MoveToElement(webElement).Perform();
         }
 
+        
         public void Click(IWebElement webElement)
         {
-            action = new Actions(Driver);
+            WaitForElementClickable(webElement);
+            action = new Actions(driver);
             action.Click(webElement).Perform();
         }
 
         public void SendKeys(IWebElement webElement, string text)
         {
-            action = new Actions(Driver);
+            WaitForElementClickable(webElement);
+            action = new Actions(driver);
             action.SendKeys(webElement, text).Perform();
+        }
+
+        private void WaitForElementClickable(IWebElement webElement)
+        {
+            wait.Until(ExpectedConditions.ElementToBeClickable(webElement));
         }
     }
 }

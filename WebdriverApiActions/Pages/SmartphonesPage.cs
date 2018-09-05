@@ -10,23 +10,16 @@ using WebdriverApiActions.Helpers;
 
 namespace WebdriverApiActions.Pages
 {
-    class SmartphonesPage : BaseHelper
+    class SmartphonesPage : BasePage
     {
         private ActionsHelper actionsHelper;
-        private BaseHelper baseHelper;
-
-        public SmartphonesPage(IWebDriver driver, WebDriverWait wait) : base(driver, wait)
+        
+        public SmartphonesPage(IWebDriver driver, WebDriverWait wait)
         {
             PageFactory.InitElements(driver, this);
-            baseHelper = new BaseHelper(driver, wait);
             actionsHelper = new ActionsHelper(driver, wait);
         }
-
-        public string GetUrl()
-        {
-            return driver.Url;
-        }
-
+        
         public SearchResultsPage GoToSearchResultsPage(IWebDriver driver)
         {
             categories.Click();
