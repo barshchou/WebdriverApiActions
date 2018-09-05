@@ -6,34 +6,30 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenQA.Selenium.Interactions;
 using WebdriverApiActions.Pages;
+using OpenQA.Selenium.Support.UI;
 
 namespace WebdriverApiActions.Helpers
 {
-    class ActionsHelper : BaseHelper
+   class ActionsHelper : BaseHelper
     {
-        public Actions action;
-        private IWebDriver driver;
-
-        public ActionsHelper (IWebDriver driver) : base(driver)
-        {
-            this.driver = driver;
-        }
+        public Actions action;    
 
         public void Hover(IWebElement webElement)
         {
-            action = new Actions(driver);
+            Wait.Until(ExpectedConditions.ElementToBeClickable(webElement));          
+            action = new Actions(Driver);
             action.MoveToElement(webElement).Perform();
         }
 
         public void Click(IWebElement webElement)
         {
-            action = new Actions(driver);
+            action = new Actions(Driver);
             action.Click(webElement).Perform();
         }
 
         public void SendKeys(IWebElement webElement, string text)
         {
-            action = new Actions(driver);
+            action = new Actions(Driver);
             action.SendKeys(webElement, text).Perform();
         }
     }

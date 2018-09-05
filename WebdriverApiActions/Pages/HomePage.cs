@@ -8,21 +8,22 @@ namespace WebdriverApiActions.Pages
 {
     class HomePage : BaseHelper
     {
-        private IWebDriver driver;
-        private WebDriverWait wait;
+        //private IWebDriver driver;
+        //private WebDriverWait wait;
         private ActionsHelper actionsHelper;
+        private BaseHelper baseHelper;
+        private string baseURL;
                 
-        public HomePage(IWebDriver driver) : base(driver)
-        {
-            this.driver = driver;
-            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+        public HomePage(IWebDriver driver, WebDriverWait wait) : base(driver, wait)
+        {           
             PageFactory.InitElements(driver, this);
-            actionsHelper = new ActionsHelper(driver);
+            baseHelper = new BaseHelper(driver, wait);
+            actionsHelper = new ActionsHelper(driver, wait);
         }
 
         public void GoToPage()
         {
-            driver.Navigate().GoToUrl("https://ebay.com");
+            driver.Navigate().GoToUrl(baseURL);
         }
 
         public SmartphonesPage GoToSmartphonesPage(IWebDriver driver)
@@ -31,26 +32,8 @@ namespace WebdriverApiActions.Pages
             actionsHelper.Hover(cellPhones);
             actionsHelper.Click(cellPhones);
                                     
-            return new SmartphonesPage(driver);
+            return new SmartphonesPage(driver, wait);
         }
-
-        //public void IsPageloaded()
-        //{
-        //    wait.Until(ExpectedConditions.UrlToBe(driver.Url));
-        //}
-
-        //public bool IsElementPresent(By by)
-        //{
-        //    try
-        //    {
-        //        driver.FindElement(by);
-        //        return true;
-        //    }
-        //    catch (NoSuchElementException)
-        //    {
-        //        return false;
-        //    }
-        //}
 
         [FindsBy(How = How.LinkText, Using = "Электроника")]
         private IWebElement electronics;

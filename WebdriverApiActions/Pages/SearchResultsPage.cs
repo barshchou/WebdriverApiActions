@@ -10,31 +10,19 @@ using WebdriverApiActions.Helpers;
 
 namespace WebdriverApiActions.Pages
 {
-    class SearchResultsPage
+    class SearchResultsPage : BaseHelper
     {
-        private IWebDriver driver;
-        private WebDriverWait wait;
         private ActionsHelper actionsHelper;
+        private BaseHelper baseHelper;
 
-        public SearchResultsPage(IWebDriver driver)
+        public SearchResultsPage(IWebDriver driver, WebDriverWait wait) : base(driver, wait)
         {
-            this.driver = driver;
-            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
             PageFactory.InitElements(driver, this);
-            actionsHelper = new ActionsHelper(driver);
+            baseHelper = new BaseHelper(driver, wait);
+            actionsHelper = new ActionsHelper(driver, wait);
         }
 
-        private bool IsElementPresent(By by)
-        {
-            try
-            {
-                driver.FindElement(by);
-                return true;
-            }
-            catch (NoSuchElementException)
-            {
-                return false;
-            }
-        }
+
+
     }
 }

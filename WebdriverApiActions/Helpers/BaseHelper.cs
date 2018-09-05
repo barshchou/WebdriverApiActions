@@ -10,24 +10,25 @@ namespace WebdriverApiActions.Helpers
 {
     class BaseHelper
     {
-        IWebDriver driver;
-        private WebDriverWait wait;
-
-        public BaseHelper(IWebDriver driver)
+        
+        public BaseHelper(IWebDriver driver, WebDriverWait wait)
         {
-            this.driver = driver;
+            
         }
 
-        public void IsPageloaded()
+        public void WaitPageLoad(IWebDriver driver, WebDriverWait wait)
         {
             wait.Until(ExpectedConditions.UrlToBe(driver.Url));
+            wait.Until(ExpectedConditions.UrlToBe("https://www.ebay.com/rpp/GBH-DCP-Electronics-Cell"));
         }
 
         public bool IsElementPresent(By by)
         {
             try
             {
-                driver.FindElement(by);
+                wait.Timeout = TimeSpan.FromSeconds(5);
+                //driver.FindElement(by);
+                wait.Until(ExpectedConditions.ElementExists(by));
                 return true;
             }
             catch (NoSuchElementException)

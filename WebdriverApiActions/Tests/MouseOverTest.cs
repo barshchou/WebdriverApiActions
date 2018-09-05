@@ -1,8 +1,10 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Configuration;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.Support.UI;
 using WebdriverApiActions.Pages;
 
 namespace WebdriverApiActions
@@ -10,6 +12,7 @@ namespace WebdriverApiActions
     class MouseOverTest
     {
         private IWebDriver driver;
+        private WebDriverWait wait;
         private string browser;
 
         [SetUp]
@@ -23,28 +26,27 @@ namespace WebdriverApiActions
                     driver = new ChromeDriver();
                     break;
                 case "Firefox":
-                    //FirefoxOptions options = new FirefoxOptions();
-                    //options.BrowserExecutableLocation = @"c:\Program Files\Mozilla Firefox61\firefox.exe";
-                    //options.UseLegacyImplementation = true;
-                    //driver = new FirefoxDriver(options);
                     driver = new FirefoxDriver();
                     break;
             }
+            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
             driver.Manage().Window.Maximize();
         }
 
         [Test]
         public void SearchCellPhones()
         {
-            HomePage home = new HomePage(driver);
+            HomePage home = new HomePage(driver, wait);
             home.GoToPage();
             SmartphonesPage smartphones = home.GoToSmartphonesPage(driver);
-            smartphones.IsPageloaded();
+            
+            smartphones.WaitPageLoad();
+
             Assert.AreEqual("https://www.ebay.com/rpp/GBH-DCP-Electronics-Cell", smartphones.GetUrl());
 
-            smartphones.GoToSearchResultsPage(driver);
+            //smartphones.GoToSearchResultsPage(driver);
 
-            Assert.IsTrue(smartphones.IsElementPresent(By.Id("ResultSetItems")));
+            Assert.IsTrue(smartphones.GoToSearchResultsPage(driver).IsElementPresent(By.Id("ResultSetItems")));
 
         }
         

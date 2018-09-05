@@ -10,18 +10,16 @@ using WebdriverApiActions.Helpers;
 
 namespace WebdriverApiActions.Pages
 {
-    class SmartphonesPage
+    class SmartphonesPage : BaseHelper
     {
-        private IWebDriver driver;
-        private WebDriverWait wait;
         private ActionsHelper actionsHelper;
+        private BaseHelper baseHelper;
 
-        public SmartphonesPage(IWebDriver driver)
+        public SmartphonesPage(IWebDriver driver, WebDriverWait wait) : base(driver, wait)
         {
-            this.driver = driver;
-            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
             PageFactory.InitElements(driver, this);
-            actionsHelper = new ActionsHelper(driver);
+            baseHelper = new BaseHelper(driver, wait);
+            actionsHelper = new ActionsHelper(driver, wait);
         }
 
         public string GetUrl()
@@ -35,26 +33,8 @@ namespace WebdriverApiActions.Pages
             music.Click();
             searchTextField.SendKeys("Скрипка");
             searchButton.Click();
-            
-            return new SearchResultsPage(driver);
-        }
-
-        public void IsPageloaded()
-        {
-            wait.Until(ExpectedConditions.UrlToBe(driver.Url));
-        }
-
-        public bool IsElementPresent(By by)
-        {
-            try
-            {
-                driver.FindElement(by);
-                return true;
-            }
-            catch (NoSuchElementException)
-            {
-                return false;
-            }
+                        
+            return new SearchResultsPage(driver, wait);
         }
 
         [FindsBy(How = How.XPath, Using = ".//*[@id='gh-cat']")]
