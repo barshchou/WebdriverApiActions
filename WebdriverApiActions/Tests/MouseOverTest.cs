@@ -7,6 +7,7 @@ using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.UI;
 using WebdriverApiActions.Pages;
 
+using WebdriverApiActions.Helpers;
 namespace WebdriverApiActions
 {
     class MouseOverTest
@@ -19,7 +20,7 @@ namespace WebdriverApiActions
         public void Initialize()
         {
             browser = ConfigurationManager.AppSettings["browser"];
-
+            
             switch (browser)
             {
                 case "Chrome":
@@ -31,6 +32,8 @@ namespace WebdriverApiActions
             }
             wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
             driver.Manage().Window.Maximize();
+            BaseHelper.Driver = driver;
+            BaseHelper.Wait = wait;
         }
 
         [Test]

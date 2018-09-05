@@ -8,27 +8,25 @@ using System.Threading.Tasks;
 
 namespace WebdriverApiActions.Helpers
 {
-    class BaseHelper
+    public class BaseHelper
     {
-        
-        public BaseHelper(IWebDriver driver, WebDriverWait wait)
-        {
-            
-        }
+        public static IWebDriver Driver;
+        public static WebDriverWait Wait;       
+     
 
-        public void WaitPageLoad(IWebDriver driver, WebDriverWait wait)
+        public void WaitPageLoad()
         {
-            wait.Until(ExpectedConditions.UrlToBe(driver.Url));
-            wait.Until(ExpectedConditions.UrlToBe("https://www.ebay.com/rpp/GBH-DCP-Electronics-Cell"));
+            Wait.Until(ExpectedConditions.UrlToBe(Driver.Url));
+            Wait.Until(ExpectedConditions.UrlToBe("https://www.ebay.com/rpp/GBH-DCP-Electronics-Cell"));
         }
 
         public bool IsElementPresent(By by)
         {
             try
             {
-                wait.Timeout = TimeSpan.FromSeconds(5);
+                Wait.Timeout = TimeSpan.FromSeconds(5);
                 //driver.FindElement(by);
-                wait.Until(ExpectedConditions.ElementExists(by));
+                Wait.Until(ExpectedConditions.ElementExists(by));
                 return true;
             }
             catch (NoSuchElementException)

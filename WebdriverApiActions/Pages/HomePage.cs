@@ -14,11 +14,11 @@ namespace WebdriverApiActions.Pages
         private BaseHelper baseHelper;
         private string baseURL;
                 
-        public HomePage(IWebDriver driver, WebDriverWait wait) : base(driver, wait)
+        public HomePage(IWebDriver driver, WebDriverWait wait) : base()
         {           
             PageFactory.InitElements(driver, this);
-            baseHelper = new BaseHelper(driver, wait);
-            actionsHelper = new ActionsHelper(driver, wait);
+            baseHelper = new BaseHelper();
+            actionsHelper = new ActionsHelper();
         }
 
         public void GoToPage()
