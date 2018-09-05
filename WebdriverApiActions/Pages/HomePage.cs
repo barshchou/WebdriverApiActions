@@ -6,18 +6,13 @@ using WebdriverApiActions.Helpers;
 
 namespace WebdriverApiActions.Pages
 {
-    class HomePage
+    class HomePage : BaseHelper
     {
-        //TODO
-        //Реализовать возможность выбора браузера через файл проперти
-
-        //IWebDriver driver = new FirefoxDriver();
-
-        IWebDriver driver;
+        private IWebDriver driver;
         private WebDriverWait wait;
         private ActionsHelper actionsHelper;
-
-        public HomePage(IWebDriver driver)
+                
+        public HomePage(IWebDriver driver) : base(driver)
         {
             this.driver = driver;
             wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
@@ -25,7 +20,7 @@ namespace WebdriverApiActions.Pages
             actionsHelper = new ActionsHelper(driver);
         }
 
-        public void goToPage()
+        public void GoToPage()
         {
             driver.Navigate().GoToUrl("https://ebay.com");
         }
@@ -35,11 +30,27 @@ namespace WebdriverApiActions.Pages
             actionsHelper.Hover(electronics);
             actionsHelper.Hover(cellPhones);
             actionsHelper.Click(cellPhones);
-
-            //wait.Until(ExpectedConditions.UrlToBe("https://www.ebay.com/rpp/GBH-DCP-Electronics-Cell"));
-
+                                    
             return new SmartphonesPage(driver);
         }
+
+        //public void IsPageloaded()
+        //{
+        //    wait.Until(ExpectedConditions.UrlToBe(driver.Url));
+        //}
+
+        //public bool IsElementPresent(By by)
+        //{
+        //    try
+        //    {
+        //        driver.FindElement(by);
+        //        return true;
+        //    }
+        //    catch (NoSuchElementException)
+        //    {
+        //        return false;
+        //    }
+        //}
 
         [FindsBy(How = How.LinkText, Using = "Электроника")]
         private IWebElement electronics;

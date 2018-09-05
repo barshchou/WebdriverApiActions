@@ -9,13 +9,12 @@ using WebdriverApiActions.Pages;
 
 namespace WebdriverApiActions.Helpers
 {
-    class ActionsHelper
+    class ActionsHelper : BaseHelper
     {
+        public Actions action;
         private IWebDriver driver;
 
-        Actions action;
-
-        public ActionsHelper(IWebDriver driver)
+        public ActionsHelper (IWebDriver driver) : base(driver)
         {
             this.driver = driver;
         }

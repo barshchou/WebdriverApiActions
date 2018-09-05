@@ -12,7 +12,7 @@ namespace WebdriverApiActions.Pages
 {
     class SearchResultsPage
     {
-        IWebDriver driver;
+        private IWebDriver driver;
         private WebDriverWait wait;
         private ActionsHelper actionsHelper;
 

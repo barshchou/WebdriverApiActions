@@ -37,12 +37,14 @@ namespace WebdriverApiActions
         public void SearchCellPhones()
         {
             HomePage home = new HomePage(driver);
-            home.goToPage();
+            home.GoToPage();
             SmartphonesPage smartphones = home.GoToSmartphonesPage(driver);
-            
+            smartphones.IsPageloaded();
             Assert.AreEqual("https://www.ebay.com/rpp/GBH-DCP-Electronics-Cell", smartphones.GetUrl());
 
             smartphones.GoToSearchResultsPage(driver);
+
+            Assert.IsTrue(smartphones.IsElementPresent(By.Id("ResultSetItems")));
 
         }
         

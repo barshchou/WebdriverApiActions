@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\ActionsHelper.cs" />
+    <Compile Include="Helpers\BaseHelper.cs" />
     <Compile Include="Tests\MouseOverTest.cs" />
     <Compile Include="Pages\HomePage.cs" />
     <Compile Include="Pages\SearchResultsPage.cs" />

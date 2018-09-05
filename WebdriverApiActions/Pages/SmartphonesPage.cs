@@ -12,7 +12,7 @@ namespace WebdriverApiActions.Pages
 {
     class SmartphonesPage
     {
-        IWebDriver driver;
+        private IWebDriver driver;
         private WebDriverWait wait;
         private ActionsHelper actionsHelper;
 
@@ -36,9 +36,25 @@ namespace WebdriverApiActions.Pages
             searchTextField.SendKeys("Скрипка");
             searchButton.Click();
             
-            //wait.Until(ExpectedConditions.UrlToBe("https://www.ebay.com/rpp/GBH-DCP-Electronics-Cell"));
-            
             return new SearchResultsPage(driver);
+        }
+
+        public void IsPageloaded()
+        {
+            wait.Until(ExpectedConditions.UrlToBe(driver.Url));
+        }
+
+        public bool IsElementPresent(By by)
+        {
+            try
+            {
+                driver.FindElement(by);
+                return true;
+            }
+            catch (NoSuchElementException)
+            {
+                return false;
+            }
         }
 
         [FindsBy(How = How.XPath, Using = ".//*[@id='gh-cat']")]
