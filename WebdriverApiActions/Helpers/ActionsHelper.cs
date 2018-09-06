@@ -38,6 +38,13 @@ namespace WebdriverApiActions.Helpers
             action.SendKeys(webElement, text).Perform();
         }
 
+        public void DargAndDrop(IWebElement from, IWebElement to)
+        {
+            action = new Actions(driver);
+            action.ClickAndHold(from).MoveToElement(to).Release(to).Build();
+            action.Perform();
+        }
+
         private void WaitForElementClickable(IWebElement webElement)
         {
             wait.Until(ExpectedConditions.ElementToBeClickable(webElement));

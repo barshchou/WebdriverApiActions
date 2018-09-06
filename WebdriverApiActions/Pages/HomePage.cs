@@ -9,15 +9,16 @@ namespace WebdriverApiActions.Pages
     class HomePage : BasePage
     {
         private ActionsHelper actionsHelper;
+        private string baseURL = "https://ebay.com";
 
         public HomePage(IWebDriver driver, WebDriverWait wait)
         {
-            
             PageFactory.InitElements(driver, this);
             actionsHelper = new ActionsHelper(driver, wait);
         }
-
-        public SmartphonesPage GoToSmartphonesPage(IWebDriver driver) //
+        
+        
+        public SmartphonesPage GoToSmartphonesPage(IWebDriver driver) 
         {
             actionsHelper.Hover(electronics);
             actionsHelper.Hover(cellPhones);

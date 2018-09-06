@@ -12,14 +12,13 @@ namespace WebdriverApiActions.Pages
     {
         public IWebDriver driver;
         public WebDriverWait wait;
-        public string baseURL = "https://ebay.com";
         
         public void WaitPageLoad(IWebDriver driver, WebDriverWait wait)
         {
             wait.Until(ExpectedConditions.UrlToBe(driver.Url));
         }
 
-        public void GoToHomePage(IWebDriver driver)
+        public void GoToHomePage(IWebDriver driver, string baseURL)
         {
             driver.Navigate().GoToUrl(baseURL);
         }
