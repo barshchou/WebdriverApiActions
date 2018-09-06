@@ -15,6 +15,7 @@ namespace WebdriverApiActions
         private IWebDriver driver;
         private WebDriverWait wait;
         private string browser;
+        private string baseURL;
 
         [SetUp]
         public void Initialize()
@@ -32,14 +33,14 @@ namespace WebdriverApiActions
             }
             wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
             driver.Manage().Window.Maximize();
-            
+            baseURL = "https://ebay.com";
         }
 
         [Test]
         public void SearchCellPhones()
         {
             HomePage home = new HomePage(driver, wait);
-            home.GoToHomePage(driver);
+            home.GoToHomePage(driver, baseURL);
             SmartphonesPage smartphones = home.GoToSmartphonesPage(driver);
             smartphones.WaitPageLoad(driver, wait);
 

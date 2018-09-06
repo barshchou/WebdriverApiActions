@@ -38,11 +38,18 @@ namespace WebdriverApiActions.Helpers
             action.SendKeys(webElement, text).Perform();
         }
 
-        public void DargAndDrop(IWebElement from, IWebElement to)
+        public void DragAndDrop(IWebElement from, IWebElement to)
         {
-            action = new Actions(driver);
-            action.ClickAndHold(from).MoveToElement(to).Release(to).Build();
-            action.Perform();
+            //action = new Actions(driver);
+            //action.DragAndDrop(from, to).Build().Perform();
+
+            Actions builder = new Actions(driver);
+            IAction dragAndDrop = builder.ClickAndHold(from)
+                .MoveByOffset(-1, -1)
+                .MoveToElement(to)
+                .Release(to)
+                .Build();
+            dragAndDrop.Perform();
         }
 
         private void WaitForElementClickable(IWebElement webElement)

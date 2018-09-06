@@ -9,7 +9,7 @@ namespace WebdriverApiActions.Pages
     class HomePage : BasePage
     {
         private ActionsHelper actionsHelper;
-        private string baseURL = "https://ebay.com";
+        private string baseURL;// = "https://ebay.com";
 
         public HomePage(IWebDriver driver, WebDriverWait wait)
         {
