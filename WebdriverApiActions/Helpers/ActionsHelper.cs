@@ -42,17 +42,22 @@ namespace WebdriverApiActions.Helpers
         {
             //action = new Actions(driver);
             //action.DragAndDrop(from, to).Build().Perform();
-
-            Actions builder = new Actions(driver);
-            IAction dragAndDrop = builder.ClickAndHold(from)
-                .MoveByOffset(-1, -1)
+            
+            action = new Actions(driver);
+            var dragAndDrop = action.ClickAndHold(from)
+                //.MoveByOffset(-1, -1)
                 .MoveToElement(to)
                 .Release(to)
                 .Build();
             dragAndDrop.Perform();
         }
 
-        private void WaitForElementClickable(IWebElement webElement)
+        public void WaitForElementPresent(By by)
+        {
+            wait.Until(ExpectedConditions.ElementExists(by));
+        }
+
+        public void WaitForElementClickable(IWebElement webElement)
         {
             wait.Until(ExpectedConditions.ElementToBeClickable(webElement));
         }

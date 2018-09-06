@@ -13,7 +13,7 @@ namespace WebdriverApiActions.Pages
         public IWebDriver driver;
         public WebDriverWait wait;
         public string baseURL;
-                
+
         public void WaitPageLoad(IWebDriver driver, WebDriverWait wait)
         {
             wait.Until(ExpectedConditions.UrlToBe(driver.Url));

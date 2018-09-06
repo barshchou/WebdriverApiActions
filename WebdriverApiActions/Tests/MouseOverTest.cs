@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Configuration;
+using System.IO;
+using System.Text;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
@@ -50,6 +52,7 @@ namespace WebdriverApiActions
 
             Assert.IsTrue(searchResults.IsElementPresent(driver, By.XPath("//div[contains(@id, 'esult') and contains(@class, 'clearfix')]/ul/li[1]"))); //
         }
+
         
         [TearDown]
         public void TearDown()

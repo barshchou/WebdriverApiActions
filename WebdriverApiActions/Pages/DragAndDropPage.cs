@@ -13,11 +13,13 @@ namespace WebdriverApiActions.Pages
 {
     class DragAndDropPage : BasePage
     {
-        //private string baseURL;
+        private string baseURL;
         private ActionsHelper actionsHelper;
+        private IWebDriver _driver;
 
         public DragAndDropPage(IWebDriver driver, WebDriverWait wait)
         {
+            _driver = driver;
             PageFactory.InitElements(driver, this);
             actionsHelper = new ActionsHelper(driver, wait);
         }
@@ -25,7 +27,7 @@ namespace WebdriverApiActions.Pages
         [FindsBy(How = How.Id, Using = "one")]
         private IWebElement one;
 
-        [FindsBy(How = How.XPath, Using = "//li[@id='two']")]
+        [FindsBy(How = How.Id, Using = "two")]
         private IWebElement two;
         
         [FindsBy(How = How.Id, Using = "three")]
@@ -37,33 +39,28 @@ namespace WebdriverApiActions.Pages
         [FindsBy(How = How.Id, Using = "five")]
         private IWebElement five;
 
-        [FindsBy(How = How.XPath, Using = "//div[@id='bin']")]
+        [FindsBy(How = How.Id, Using = "bin")]
         private IWebElement placeToDrop;
+        
 
-        public IWebElement JavascriptFindElement(IWebDriver driver, String element)
+        public DragAndDropPage DragItems()
         {
-            IWebElement webElement;// = driver.FindElement(By.XPath(element));
-            IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
-            webElement = (IWebElement)js.ExecuteScript("return document.getElementById("+element+")", element);
-            return webElement;
-        }
-
-        public void /*DragAndDropPage*/ DragItems(IWebDriver driver)
-        {
+            actionsHelper.WaitForElementPresent(By.Id("bin"));
             actionsHelper.DragAndDrop(two, placeToDrop);
-            actionsHelper.DragAndDrop(four, placeToDrop);
-
-            //return new DragAndDropPage(driver, wait);
+            actionsHelper.DragAndDrop(five, placeToDrop);
+            return this;
         }
         
-        internal bool CheckDOMTree(IWebDriver driver, int countAfter)
+
+        public bool CheckDOMTree(int countAfter)
         {
-            return (countAfter == driver.FindElements(By.XPath("//div/p")).Count());
+            return (countAfter == _driver.FindElements(By.XPath("//div/p")).Count());
         }
 
-        public int CountItems(IWebDriver driver)
+        public int CountItems()//IWebDriver driver
         {
-            int count = driver.FindElements(By.XPath("//li/a")).Count();
+            actionsHelper.WaitForElementPresent(By.Id("bin"));
+            int count = _driver.FindElements(By.XPath("//li/a")).Count();
 
             //for (int i = 0; i < count-1; i++)
             //{
