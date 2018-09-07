@@ -44,7 +44,7 @@ namespace WebdriverApiActions
             HomePage home = new HomePage(driver, wait);
             home.GoToHomePage(driver, baseURL);
             SmartphonesPage smartphones = home.GoToSmartphonesPage(driver);
-            smartphones.WaitPageLoad(driver, wait);
+            smartphones.WaitPageLoad(driver, wait,By.CssSelector(""));//TO EDIT
 
             Assert.AreEqual("https://www.ebay.com/rpp/GBH-DCP-Electronics-Cell", smartphones.GetUrl(driver));
 

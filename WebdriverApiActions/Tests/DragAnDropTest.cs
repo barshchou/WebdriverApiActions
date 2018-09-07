@@ -5,12 +5,14 @@ using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Remote;
 using OpenQA.Selenium.Support.UI;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using WebdriverApiActions.Pages;
 
@@ -41,48 +43,37 @@ namespace WebdriverApiActions.Tests
             driver.Manage().Window.Maximize();
             baseURL = "https://html5demos.com/drag/";
         }
-
+                       
         [Test]
-        public void DragAndDropTest()
+        public void TestHTML5DragNDrop()
         {
-            int countBefore = 0;
-            int countAfter = 0;
-
             DragAndDropPage dragAndDropPage = new DragAndDropPage(driver, wait);
-            dragAndDropPage.GoToHomePage(driver, baseURL);
-            dragAndDropPage.WaitPageLoad(driver, wait);
-            countBefore = dragAndDropPage.CountItems();
-            dragAndDropPage.DragItems();
-            countAfter = dragAndDropPage.CountItems();
+            dragAndDropPage.GoToHomePage(driver,baseURL);
+            dragAndDropPage.WaitForElementPresent(driver, wait, By.CssSelector("#bin"));
 
-            dragAndDropPage.CheckDOMTree(countAfter);
+            IList elementsBefore = dragAndDropPage.GetElementsList();
+            
+            dragAndDropPage.DragItems(dragAndDropPage.one);
+            //Check text is moved into box
+            dragAndDropPage.CheckDOMTree();
 
-            if ((countBefore - 2) == countAfter)
-            {
-                return;
-            }
+            dragAndDropPage.DragItems(dragAndDropPage.three);
+            //Check text is moved into box
+            dragAndDropPage.CheckDOMTree();
+
+            IList elementsAfter = dragAndDropPage.GetElementsList();
+
+            Assert.AreEqual(elementsBefore.Count - 2, elementsAfter.Count);
+
+            
+
+            Thread.Sleep(5000);
         }
+        
 
-        [Test]
-        public void DNDtest()
-        {
-            driver.Navigate().GoToUrl(baseURL);
 
-            String filePath = "C://dnd2.js";
-            String source = "a[id='one']";
-            String target = "div[id='bin']";
-            StringBuilder buffer = new StringBuilder();
-            String line;
-            StreamReader br = new StreamReader(filePath, Encoding.Default);
-            while ((line = br.ReadLine()) != null)
-                buffer.Append(line);
-            
-            String javaScript = buffer.ToString();
-            
-            javaScript = javaScript + "$('" + source + "').simulateDragDrop({ dropTarget: '" + target + "'});";
-            ((IJavaScriptExecutor)driver).ExecuteScript(javaScript);
-            
-        }
+
+
 
         [TearDown]
         public void TearDown()

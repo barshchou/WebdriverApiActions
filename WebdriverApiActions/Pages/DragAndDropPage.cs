@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WebdriverApiActions.Helpers;
+using System.Collections;
 
 namespace WebdriverApiActions.Pages
 {
@@ -15,6 +16,7 @@ namespace WebdriverApiActions.Pages
     {
         private string baseURL;
         private ActionsHelper actionsHelper;
+        private JavaScriptRunner scriptRunner;
         private IWebDriver _driver;
 
         public DragAndDropPage(IWebDriver driver, WebDriverWait wait)
@@ -22,52 +24,48 @@ namespace WebdriverApiActions.Pages
             _driver = driver;
             PageFactory.InitElements(driver, this);
             actionsHelper = new ActionsHelper(driver, wait);
+            scriptRunner = new JavaScriptRunner(driver);
         }
 
-        [FindsBy(How = How.Id, Using = "one")]
-        private IWebElement one;
+        [FindsBy(How = How.CssSelector, Using = "#one")]
+        public IWebElement one;
 
-        [FindsBy(How = How.Id, Using = "two")]
-        private IWebElement two;
+        [FindsBy(How = How.CssSelector, Using = "#two")]
+        public IWebElement two;
         
-        [FindsBy(How = How.Id, Using = "three")]
-        private IWebElement three;
+        [FindsBy(How = How.CssSelector, Using = "#three")]
+        public IWebElement three;
         
-        [FindsBy(How = How.Id, Using = "four")]
-        private IWebElement four;
+        [FindsBy(How = How.CssSelector, Using = "#four")]
+        public IWebElement four;
 
-        [FindsBy(How = How.Id, Using = "five")]
-        private IWebElement five;
+        [FindsBy(How = How.CssSelector, Using = "#five")]
+        public IWebElement five;
 
-        [FindsBy(How = How.Id, Using = "bin")]
-        private IWebElement placeToDrop;
+        [FindsBy(How = How.CssSelector, Using = "#bin")]
+        public IWebElement placeToDrop;
         
 
-        public DragAndDropPage DragItems()
+        public void DragItems(IWebElement webElement)
         {
             actionsHelper.WaitForElementPresent(By.Id("bin"));
-            actionsHelper.DragAndDrop(two, placeToDrop);
-            actionsHelper.DragAndDrop(five, placeToDrop);
-            return this;
+            scriptRunner.RunScript(webElement);
         }
-        
 
-        public bool CheckDOMTree(int countAfter)
+        public bool CheckDOMTree()
         {
-            return (countAfter == _driver.FindElements(By.XPath("//div/p")).Count());
+            return (IsElementPresent(_driver, By.CssSelector("div > p")));
         }
 
-        public int CountItems()//IWebDriver driver
+        public IList GetElementsList()//IWebDriver driver
         {
             actionsHelper.WaitForElementPresent(By.Id("bin"));
             int count = _driver.FindElements(By.XPath("//li/a")).Count();
 
-            //for (int i = 0; i < count-1; i++)
-            //{
-            //    webElements.Add(driver.FindElement(By.TagName("//li[ " + i + "]")));
-            //}
+            IList webelements;
+            webelements = _driver.FindElements(By.XPath("//li/a"));
 
-            return count;
+            return webelements;
         }
     }
 }

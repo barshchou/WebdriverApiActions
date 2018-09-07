@@ -14,9 +14,14 @@ namespace WebdriverApiActions.Pages
         public WebDriverWait wait;
         public string baseURL;
 
-        public void WaitPageLoad(IWebDriver driver, WebDriverWait wait)
+        public void WaitPageLoad(IWebDriver driver, WebDriverWait wait, By by)
         {
             wait.Until(ExpectedConditions.UrlToBe(driver.Url));
+        }
+
+        public void WaitForElementPresent(IWebDriver driver, WebDriverWait wait, By by)
+        {
+            wait.Until(ExpectedConditions.ElementExists(by));
         }
 
         public void GoToHomePage(IWebDriver driver, string baseURL)
@@ -41,6 +46,7 @@ namespace WebdriverApiActions.Pages
         {
             return driver.Url;
         }
+        
 
     }
 }
