@@ -32,7 +32,7 @@ namespace WebdriverApiActions
                     driver = new FirefoxDriver(options);
                     break;
             }
-            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
             driver.Manage().Window.Maximize();
             baseURL = "https://ebay.com";
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);

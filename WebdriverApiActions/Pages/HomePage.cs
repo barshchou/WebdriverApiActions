@@ -24,9 +24,10 @@ namespace WebdriverApiActions.Pages
         
         public SmartphonesPage GoToSmartphonesPage()
         {
-            actionsHelper.Hover(electronics);
-            actionsHelper.HoverAnClick(cellPhones);
-                                    
+            actionsHelper.MouseHoverByJavaScript(electronics);
+            actionsHelper.MouseHoverByJavaScript(cellPhones);
+            actionsHelper.Click(cellPhones);
+
             return new SmartphonesPage(_driver, _wait);
         }
 

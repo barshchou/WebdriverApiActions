@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,8 +19,10 @@ namespace WebdriverApiActions.Helpers
         }
         public void RunScript(IWebElement From)
         {
-            string script = File.ReadAllText("C:\\drag_and_drop_helper.js");
-            string jquery = File.ReadAllText("C:\\jquery.js");
+            string path1 = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"Scripts\drag_and_drop_helper.js");
+            string path2 = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"Scripts\jquery.js");
+            string script = File.ReadAllText(path1);
+            string jquery = File.ReadAllText(path2);
 
             string from = From.Text;
             
