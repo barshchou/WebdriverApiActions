@@ -10,32 +10,30 @@ namespace WebdriverApiActions.Pages
     {
         private ActionsHelper actionsHelper;
         private string baseURL;
+        private IWebDriver _driver;
+        private WebDriverWait _wait;
 
-        public HomePage(IWebDriver driver, WebDriverWait wait)
+        public HomePage(IWebDriver driver, WebDriverWait wait) : base(driver, wait)
         {
+            _driver = driver;
+            _wait = wait;
             PageFactory.InitElements(driver, this);
             actionsHelper = new ActionsHelper(driver, wait);
         }
         
         
-        public SmartphonesPage GoToSmartphonesPage(IWebDriver driver) 
+        public SmartphonesPage GoToSmartphonesPage()
         {
             actionsHelper.Hover(electronics);
-            actionsHelper.Hover(cellPhones);
-            actionsHelper.Click(cellPhones);
+            actionsHelper.HoverAnClick(cellPhones);
                                     
-            return new SmartphonesPage(driver, wait);
+            return new SmartphonesPage(_driver, _wait);
         }
 
         [FindsBy(How = How.LinkText, Using = "Электроника")]
         private IWebElement electronics;
 
-        [FindsBy(How = How.XPath, Using = "//*[contains(text(), 'Мобильные телефоны и аксессуары')]")]
+        [FindsBy(How = How.CssSelector, Using = "a[title='Электроника - Мобильные телефоны и аксессуары']")]
         private IWebElement cellPhones;
-
-        
-
-
-
     }
 }

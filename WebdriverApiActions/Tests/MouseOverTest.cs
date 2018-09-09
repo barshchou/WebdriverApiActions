@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Configuration;
-using System.IO;
-using System.Text;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
@@ -9,7 +7,6 @@ using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.UI;
 using WebdriverApiActions.Pages;
 
-using WebdriverApiActions.Helpers;
 namespace WebdriverApiActions
 {
     class MouseOverTest
@@ -30,29 +27,34 @@ namespace WebdriverApiActions
                     driver = new ChromeDriver();
                     break;
                 case "Firefox":
-                    driver = new FirefoxDriver();
+                    FirefoxOptions options = new FirefoxOptions();
+                    options.BrowserExecutableLocation = @"C:\Program Files\Mozilla Firefox\firefox.exe";
+                    driver = new FirefoxDriver(options);
                     break;
             }
             wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
             driver.Manage().Window.Maximize();
             baseURL = "https://ebay.com";
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);
         }
 
         [Test]
         public void SearchCellPhones()
         {
             HomePage home = new HomePage(driver, wait);
-            home.GoToHomePage(driver, baseURL);
-            SmartphonesPage smartphones = home.GoToSmartphonesPage(driver);
-            smartphones.WaitPageLoad(driver, wait,By.CssSelector(""));//TO EDIT
+            
+            home.GoToHomePage(baseURL);
+            
+            SmartphonesPage smartphones = home.GoToSmartphonesPage();
+            
+            Assert.IsTrue(smartphones.CheckPage());
 
-            Assert.AreEqual("https://www.ebay.com/rpp/GBH-DCP-Electronics-Cell", smartphones.GetUrl(driver));
+            Assert.AreEqual("https://www.ebay.com/rpp/GBH-DCP-Electronics-Cell", smartphones.GetUrl());
 
-            SearchResultsPage searchResults = smartphones.GoToSearchResultsPage(driver);
-
-            Assert.IsTrue(searchResults.IsElementPresent(driver, By.XPath("//div[contains(@id, 'esult') and contains(@class, 'clearfix')]/ul/li[1]"))); //
+            SearchResultsPage searchResults = smartphones.GoToSearchResultsPage("Скрипка");
+            
+            Assert.IsTrue(searchResults.ItemsFound());
         }
-
         
         [TearDown]
         public void TearDown()

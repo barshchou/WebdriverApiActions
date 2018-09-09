@@ -19,7 +19,7 @@ namespace WebdriverApiActions.Pages
         private JavaScriptRunner scriptRunner;
         private IWebDriver _driver;
 
-        public DragAndDropPage(IWebDriver driver, WebDriverWait wait)
+        public DragAndDropPage(IWebDriver driver, WebDriverWait wait) : base(driver, wait)
         {
             _driver = driver;
             PageFactory.InitElements(driver, this);
@@ -52,20 +52,14 @@ namespace WebdriverApiActions.Pages
             scriptRunner.RunScript(webElement);
         }
 
-        public bool CheckDOMTree()
+        public bool CheckDOMTree(int i)
         {
-            return (IsElementPresent(_driver, By.CssSelector("div > p")));
+            return IsElementPresent(By.CssSelector("#bin p:nth-of-type("+i+")")); 
         }
 
-        public IList GetElementsList()//IWebDriver driver
+        public IList GetElementsList()
         {
-            actionsHelper.WaitForElementPresent(By.Id("bin"));
-            int count = _driver.FindElements(By.XPath("//li/a")).Count();
-
-            IList webelements;
-            webelements = _driver.FindElements(By.XPath("//li/a"));
-
-            return webelements;
+            return _driver.FindElements(By.XPath("//li/a"));
         }
     }
 }

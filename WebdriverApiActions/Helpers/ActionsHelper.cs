@@ -7,59 +7,53 @@ namespace WebdriverApiActions.Helpers
     class ActionsHelper
     {
         public Actions action;
-        protected IWebDriver driver;
-        protected WebDriverWait wait;
+        protected IWebDriver _driver;
+        protected WebDriverWait _wait;
 
         public ActionsHelper(IWebDriver driver, WebDriverWait wait)
         {
-            this.driver = driver;
-            this.wait = wait;
+            _driver = driver;
+            _wait = wait;
         }
 
         public void Hover(IWebElement webElement)
         {
-            WaitForElementClickable(webElement);          
-            action = new Actions(driver);
-            action.MoveToElement(webElement).Perform();
+            action = new Actions(_driver);
+            WaitForElementClickable(webElement);
+            action.MoveToElement(webElement).Build().Perform();
         }
-
         
         public void Click(IWebElement webElement)
         {
+            action = new Actions(_driver);
             WaitForElementClickable(webElement);
-            action = new Actions(driver);
-            action.Click(webElement).Perform();
+            action.Click(webElement).Build().Perform();
+        }
+
+        public void HoverAnClick(IWebElement webElement)
+        {
+            action = new Actions(_driver);
+            WaitForElementClickable(webElement);
+            action.MoveToElement(webElement).Click().Build();
+            action.Perform();
+
         }
 
         public void SendKeys(IWebElement webElement, string text)
         {
             WaitForElementClickable(webElement);
-            action = new Actions(driver);
+            action = new Actions(_driver);
             action.SendKeys(webElement, text).Perform();
         }
-
-        public void DragAndDrop(IWebElement from, IWebElement to)
-        {
-            //action = new Actions(driver);
-            //action.DragAndDrop(from, to).Build().Perform();
-            
-            action = new Actions(driver);
-            var dragAndDrop = action.ClickAndHold(from)
-                //.MoveByOffset(-1, -1)
-                .MoveToElement(to)
-                .Release(to)
-                .Build();
-            dragAndDrop.Perform();
-        }
-
+        
         public void WaitForElementPresent(By by)
         {
-            wait.Until(ExpectedConditions.ElementExists(by));
+            _wait.Until(ExpectedConditions.ElementExists(by));
         }
-
+        
         public void WaitForElementClickable(IWebElement webElement)
         {
-            wait.Until(ExpectedConditions.ElementToBeClickable(webElement));
+            _wait.Until(ExpectedConditions.ElementToBeClickable(webElement));
         }
     }
 }

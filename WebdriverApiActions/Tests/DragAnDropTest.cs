@@ -2,18 +2,10 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
-using OpenQA.Selenium.Remote;
 using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Configuration;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
 using WebdriverApiActions.Pages;
 
 namespace WebdriverApiActions.Tests
@@ -36,7 +28,10 @@ namespace WebdriverApiActions.Tests
                     driver = new ChromeDriver();
                     break;
                 case "Firefox":
-                    driver = new FirefoxDriver();
+
+                    FirefoxOptions options = new FirefoxOptions();
+                    options.BrowserExecutableLocation = @"C:\Program Files\Mozilla Firefox\firefox.exe";
+                    driver = new FirefoxDriver(options);
                     break;
             }
             wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
@@ -48,33 +43,23 @@ namespace WebdriverApiActions.Tests
         public void TestHTML5DragNDrop()
         {
             DragAndDropPage dragAndDropPage = new DragAndDropPage(driver, wait);
-            dragAndDropPage.GoToHomePage(driver,baseURL);
-            dragAndDropPage.WaitForElementPresent(driver, wait, By.CssSelector("#bin"));
-
+            dragAndDropPage.GoToHomePage(baseURL);
+           
             IList elementsBefore = dragAndDropPage.GetElementsList();
             
             dragAndDropPage.DragItems(dragAndDropPage.one);
-            //Check text is moved into box
-            dragAndDropPage.CheckDOMTree();
-
             dragAndDropPage.DragItems(dragAndDropPage.three);
-            //Check text is moved into box
-            dragAndDropPage.CheckDOMTree();
-
+            
             IList elementsAfter = dragAndDropPage.GetElementsList();
 
             Assert.AreEqual(elementsBefore.Count - 2, elementsAfter.Count);
 
-            
-
-            Thread.Sleep(5000);
+            for (int i = 0; i < elementsBefore.Count-elementsAfter.Count; i++)
+            {
+                Assert.IsTrue(dragAndDropPage.CheckDOMTree(i + 1));
+            }
         }
         
-
-
-
-
-
         [TearDown]
         public void TearDown()
         {

@@ -10,30 +10,35 @@ namespace WebdriverApiActions.Pages
 {
     class BasePage
     {
-        public IWebDriver driver;
-        public WebDriverWait wait;
-        public string baseURL;
+        private IWebDriver _driver;
+        private WebDriverWait _wait;
 
-        public void WaitPageLoad(IWebDriver driver, WebDriverWait wait, By by)
+        public BasePage(IWebDriver driver, WebDriverWait wait)
         {
-            wait.Until(ExpectedConditions.UrlToBe(driver.Url));
+            _driver = driver;
+            _wait = wait;
         }
 
-        public void WaitForElementPresent(IWebDriver driver, WebDriverWait wait, By by)
+        public void WaitPageLoad() 
         {
-            wait.Until(ExpectedConditions.ElementExists(by));
+            _wait.Until(ExpectedConditions.UrlToBe(_driver.Url));
         }
 
-        public void GoToHomePage(IWebDriver driver, string baseURL)
+        public void WaitForElementPresent(By by)
         {
-            driver.Navigate().GoToUrl(baseURL);
+            _wait.Until(ExpectedConditions.ElementExists(by));
         }
 
-        public bool IsElementPresent(IWebDriver driver, By by)
+        public void GoToHomePage(string baseURL)
+        {
+            _driver.Navigate().GoToUrl(baseURL);
+        }
+
+        public bool IsElementPresent(By by)
         {
             try
             {
-                driver.FindElement(by);
+                _driver.FindElement(by);
                 return true;
             }
             catch (NoSuchElementException)
@@ -42,9 +47,9 @@ namespace WebdriverApiActions.Pages
             }
         }
 
-        public string GetUrl(IWebDriver driver)
+        public string GetUrl()
         {
-            return driver.Url;
+            return _driver.Url;
         }
         
 

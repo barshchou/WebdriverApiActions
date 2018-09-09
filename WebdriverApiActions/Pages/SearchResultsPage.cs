@@ -13,11 +13,23 @@ namespace WebdriverApiActions.Pages
     class SearchResultsPage : BasePage
     {
         private ActionsHelper actionsHelper;
-        
-        public SearchResultsPage(IWebDriver driver, WebDriverWait wait)
+        private IWebDriver _driver;
+        private WebDriverWait _wait;
+
+        public SearchResultsPage(IWebDriver driver, WebDriverWait wait) : base(driver, wait)
         {
+            _driver = driver;
+            _wait = wait;
             PageFactory.InitElements(driver, this);
             actionsHelper = new ActionsHelper(driver, wait);
         }
+
+        public bool ItemsFound()
+        {
+            return result.Displayed;
+        }
+
+        [FindsBy(How = How.XPath, Using = "//div[contains(@id, 'esult') and contains(@class, 'clearfix')]/ul/li[1]")]
+        private IWebElement result;
     }
 }
