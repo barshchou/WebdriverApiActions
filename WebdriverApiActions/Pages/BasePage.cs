@@ -51,7 +51,5 @@ namespace WebdriverApiActions.Pages
         {
             return _driver.Url;
         }
-        
-
     }
 }

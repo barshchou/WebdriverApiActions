@@ -44,16 +44,21 @@ namespace WebdriverApiActions.Tests
         {
             DragAndDropPage dragAndDropPage = new DragAndDropPage(driver, wait);
             dragAndDropPage.GoToHomePage(baseURL);
-           
+            
+            //Count before dragging
             IList elementsBefore = dragAndDropPage.GetElementsList();
             
+            //Drag
             dragAndDropPage.DragItems(dragAndDropPage.one);
             dragAndDropPage.DragItems(dragAndDropPage.three);
-            
+
+            //Count after dragging
             IList elementsAfter = dragAndDropPage.GetElementsList();
 
+            //Check count
             Assert.AreEqual(elementsBefore.Count - 2, elementsAfter.Count);
 
+            //Check items moved
             for (int i = 0; i < elementsBefore.Count-elementsAfter.Count; i++)
             {
                 Assert.IsTrue(dragAndDropPage.CheckDOMTree(i + 1));

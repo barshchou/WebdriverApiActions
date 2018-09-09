@@ -15,7 +15,7 @@ namespace WebdriverApiActions.Helpers
 
         public JavaScriptRunner(IWebDriver driver)
         {
-            this._driver = driver;
+            _driver = driver;
         }
         public void RunScript(IWebElement From)
         {

@@ -48,7 +48,7 @@ namespace WebdriverApiActions.Pages
 
         public void DragItems(IWebElement webElement)
         {
-            actionsHelper.WaitForElementPresent(By.Id("bin"));
+            actionsHelper.WaitForElementPresent(By.XPath("//li/a"));
             scriptRunner.RunScript(webElement);
         }
 

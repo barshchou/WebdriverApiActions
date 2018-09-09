@@ -60,13 +60,9 @@ namespace WebdriverApiActions.Helpers
             _wait.Until(ExpectedConditions.ElementExists(by));
         }
         
-        public IWebElement WaitForElementClickable(IWebElement webElement)
+        public void WaitForElementClickable(IWebElement webElement)
         {
-            _wait.Until(
-                ExpectedConditions.ElementIsVisible(
-                    By.CssSelector("a[title='Электроника - Мобильные телефоны и аксессуары']")));
-            //_wait.Until(ExpectedConditions.ElementToBeClickable(webElement));
-            return webElement;
+            _wait.Until(ExpectedConditions.ElementToBeClickable(webElement));
         }
     }
 }

@@ -42,17 +42,19 @@ namespace WebdriverApiActions
         public void SearchCellPhones()
         {
             HomePage home = new HomePage(driver, wait);
-            
             home.GoToHomePage(baseURL);
-            
+
+            //Navigate to smartphones page
             SmartphonesPage smartphones = home.GoToSmartphonesPage();
             
+            //Check IsSmartphonePage
             Assert.IsTrue(smartphones.CheckPage());
-
             Assert.AreEqual("https://www.ebay.com/rpp/GBH-DCP-Electronics-Cell", smartphones.GetUrl());
 
+            //Search
             SearchResultsPage searchResults = smartphones.GoToSearchResultsPage("Скрипка");
             
+            //Check items found
             Assert.IsTrue(searchResults.ItemsFound());
         }
         
