@@ -36,7 +36,6 @@ namespace WebdriverApiActions.Helpers
             action = new Actions(_driver);
             WaitForElementClickable(webElement);
             action.MoveToElement(webElement).Click().Build().Perform();
-
         }
 
         public void MouseHoverByJavaScript(IWebElement targetElement)
