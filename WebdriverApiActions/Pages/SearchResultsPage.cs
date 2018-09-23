@@ -10,26 +10,23 @@ using WebdriverApiActions.Helpers;
 
 namespace WebdriverApiActions.Pages
 {
-    class SearchResultsPage : BasePage
+    class SearchResultsPage : BaseHelper
     {
-        private ActionsHelper actionsHelper;
+        
         private IWebDriver _driver;
-        private WebDriverWait _wait;
+        
+        [FindsBy(How = How.XPath, Using = "//div[contains(@id, 'esult') and contains(@class, 'clearfix')]/ul/li[1]")]
+        private IWebElement result;
 
-        public SearchResultsPage(IWebDriver driver, WebDriverWait wait) : base(driver, wait)
+        public SearchResultsPage(IWebDriver driver) : base(driver)
         {
             _driver = driver;
-            _wait = wait;
             PageFactory.InitElements(driver, this);
-            actionsHelper = new ActionsHelper(driver, wait);
         }
 
-        public bool ItemsFound()
+        public bool IsItemFound()
         {
             return result.Displayed;
         }
-
-        [FindsBy(How = How.XPath, Using = "//div[contains(@id, 'esult') and contains(@class, 'clearfix')]/ul/li[1]")]
-        private IWebElement result;
     }
 }

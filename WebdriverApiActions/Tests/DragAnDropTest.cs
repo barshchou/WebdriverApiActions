@@ -42,26 +42,26 @@ namespace WebdriverApiActions.Tests
         [Test]
         public void TestHTML5DragNDrop()
         {
-            DragAndDropPage dragAndDropPage = new DragAndDropPage(driver, wait);
-            dragAndDropPage.GoToHomePage(baseURL);
-            
+            DragAndDropPage dragAndDropPage = new DragAndDropPage(driver);
+            driver.Navigate().GoToUrl(baseURL);
+
             //Count before dragging
-            IList elementsBefore = dragAndDropPage.GetElementsList();
+            IList itemsToDropBefore = dragAndDropPage.GetItemsToDropAvailableList();
             
             //Drag
-            dragAndDropPage.DragItems(dragAndDropPage.one);
-            dragAndDropPage.DragItems(dragAndDropPage.three);
+            dragAndDropPage.DragAndDropItemToBin(dragAndDropPage.one);
+            dragAndDropPage.DragAndDropItemToBin(dragAndDropPage.three);
 
             //Count after dragging
-            IList elementsAfter = dragAndDropPage.GetElementsList();
+            IList itemsToDropAfter = dragAndDropPage.GetItemsToDropAvailableList();
 
             //Check count
-            Assert.AreEqual(elementsBefore.Count - 2, elementsAfter.Count);
+            Assert.AreEqual(itemsToDropBefore.Count - 2, itemsToDropAfter.Count);
 
-            //Check items moved
-            for (int i = 0; i < elementsBefore.Count-elementsAfter.Count; i++)
+            //Check items moved correctly
+            for (int i = 0; i < itemsToDropBefore.Count- itemsToDropAfter.Count; i++)
             {
-                Assert.IsTrue(dragAndDropPage.CheckDOMTree(i + 1));
+                Assert.IsTrue(dragAndDropPage.CheckItemMovedCorrectly(i + 1));
             }
         }
         

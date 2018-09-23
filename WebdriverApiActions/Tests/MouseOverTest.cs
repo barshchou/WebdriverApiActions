@@ -32,7 +32,7 @@ namespace WebdriverApiActions
                     driver = new FirefoxDriver(options);
                     break;
             }
-            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
+            //wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
             driver.Manage().Window.Maximize();
             baseURL = "https://ebay.com";
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);
@@ -41,21 +41,20 @@ namespace WebdriverApiActions
         [Test]
         public void SearchCellPhones()
         {
-            HomePage home = new HomePage(driver, wait);
-            home.GoToHomePage(baseURL);
+            HomePage home = new HomePage(driver);
+            driver.Navigate().GoToUrl(baseURL); 
 
             //Navigate to smartphones page
             SmartphonesPage smartphones = home.GoToSmartphonesPage();
             
             //Check IsSmartphonePage
-            Assert.IsTrue(smartphones.CheckPage());
-            Assert.AreEqual("https://www.ebay.com/rpp/GBH-DCP-Electronics-Cell", smartphones.GetUrl());
+            Assert.AreEqual("https://www.ebay.com/rpp/GBH-DCP-Electronics-Cell", driver.Url);
 
             //Search
-            SearchResultsPage searchResults = smartphones.GoToSearchResultsPage("Скрипка");
+            SearchResultsPage searchResults = smartphones.PerformSearch("Скрипка");
             
             //Check items found
-            Assert.IsTrue(searchResults.ItemsFound());
+            Assert.IsTrue(searchResults.IsItemFound());
         }
         
         [TearDown]
