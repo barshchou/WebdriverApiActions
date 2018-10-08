@@ -5,62 +5,46 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.UI;
+using WebdriverApiActions.Helpers;
 using WebdriverApiActions.Pages;
 
 namespace WebdriverApiActions
 {
     class MouseOverTest
     {
-        private IWebDriver driver;
+        public static IWebDriver Driver { get; set; }
         private WebDriverWait wait;
-        private string browser;
         private string baseURL;
 
         [SetUp]
         public void Initialize()
         {
-            browser = ConfigurationManager.AppSettings["browser"];
-            
-            switch (browser)
-            {
-                case "Chrome":
-                    driver = new ChromeDriver();
-                    break;
-                case "Firefox":
-                    FirefoxOptions options = new FirefoxOptions();
-                    options.BrowserExecutableLocation = @"C:\Program Files\Mozilla Firefox\firefox.exe";
-                    driver = new FirefoxDriver(options);
-                    break;
-            }
-            //wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
-            driver.Manage().Window.Maximize();
+            DriverInitialization driverInitialization = new DriverInitialization();
+            Driver = driverInitialization.InitializeDriver();
+            Driver.Manage().Window.Maximize();
             baseURL = "https://ebay.com";
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);
+            Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);
         }
 
         [Test]
         public void SearchCellPhones()
         {
-            HomePage home = new HomePage(driver);
-            driver.Navigate().GoToUrl(baseURL); 
+            HomePage home = new HomePage(Driver);
+            Driver.Navigate().GoToUrl(baseURL); 
 
-            //Navigate to smartphones page
             SmartphonesPage smartphones = home.GoToSmartphonesPage();
             
-            //Check IsSmartphonePage
-            Assert.AreEqual("https://www.ebay.com/rpp/GBH-DCP-Electronics-Cell", driver.Url);
+            Assert.AreEqual("https://www.ebay.com/rpp/GBH-DCP-Electronics-Cell", Driver.Url);
 
-            //Search
             SearchResultsPage searchResults = smartphones.PerformSearch("Скрипка");
             
-            //Check items found
             Assert.IsTrue(searchResults.IsItemFound());
         }
         
         [TearDown]
         public void TearDown()
         {
-            driver.Close();
+            Driver.Close();
         }
     }
 }
