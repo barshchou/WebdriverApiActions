@@ -6,35 +6,30 @@ using WebdriverApiActions.Helpers;
 
 namespace WebdriverApiActions.Pages
 {
-    class HomePage : BasePage
+    class HomePage : BaseHelper
     {
-        private ActionsHelper actionsHelper;
         private string baseURL;
         private IWebDriver _driver;
-        private WebDriverWait _wait;
-
-        public HomePage(IWebDriver driver, WebDriverWait wait) : base(driver, wait)
-        {
-            _driver = driver;
-            _wait = wait;
-            PageFactory.InitElements(driver, this);
-            actionsHelper = new ActionsHelper(driver, wait);
-        }
         
-        
-        public SmartphonesPage GoToSmartphonesPage()
-        {
-            actionsHelper.MouseHoverByJavaScript(electronics);
-            actionsHelper.MouseHoverByJavaScript(cellPhones);
-            actionsHelper.Click(cellPhones);
-
-            return new SmartphonesPage(_driver, _wait);
-        }
-
-        [FindsBy(How = How.LinkText, Using = "Электроника")]
+        [FindsBy(How = How.XPath, Using = "//tr/td[@role='listitem'][4]")]
         private IWebElement electronics;
 
-        [FindsBy(How = How.CssSelector, Using = "a[title='Электроника - Мобильные телефоны и аксессуары']")]
+        [FindsBy(How = How.XPath, Using = "//li/a[span[@class='icon cpa']]")]
         private IWebElement cellPhones;
+
+        public HomePage(IWebDriver driver) : base(driver)
+        {
+            _driver = driver;
+            PageFactory.InitElements(driver, this);
+        }
+
+        public SmartphonesPage GoToSmartphonesPage()
+        {
+            MouseHoverByJavaScript(electronics);
+            MouseHoverByJavaScript(cellPhones);
+            Click(cellPhones);
+
+            return new SmartphonesPage(_driver);
+        }
     }
 }

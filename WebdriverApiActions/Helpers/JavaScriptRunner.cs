@@ -11,13 +11,14 @@ namespace WebdriverApiActions.Helpers
 {
     class JavaScriptRunner
     {
+        private const string TO = "#bin";
         IWebDriver _driver;
 
         public JavaScriptRunner(IWebDriver driver)
         {
             _driver = driver;
         }
-        public void RunScript(IWebElement From)
+        public void DragAndDropItemToBin_Script(IWebElement From)
         {
             string path1 = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"Scripts\drag_and_drop_helper.js");
             string path2 = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"Scripts\jquery.js");
@@ -28,12 +29,7 @@ namespace WebdriverApiActions.Helpers
             
             var js = (IJavaScriptExecutor)_driver;
             js.ExecuteScript(jquery);
-            js.ExecuteScript(script + "$('#"+ from +"').simulateDragDrop({ dropTarget: '#bin'});");
-        }
-
-        public string GetElementLocatorString(IWebElement webElement)
-        {
-            return webElement.GetCssValue("id");
+            js.ExecuteScript(script + "$('#"+ from +"').simulateDragDrop({ dropTarget: '"+ TO + "'});");
         }
     }
 }

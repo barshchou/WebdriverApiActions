@@ -10,34 +10,9 @@ using WebdriverApiActions.Helpers;
 
 namespace WebdriverApiActions.Pages
 {
-    class SmartphonesPage : BasePage
+    class SmartphonesPage : BaseHelper
     {
-        private ActionsHelper actionsHelper;
         private IWebDriver _driver;
-        private WebDriverWait _wait;
-
-        public SmartphonesPage(IWebDriver driver, WebDriverWait wait) : base(driver, wait)
-        {
-            _driver = driver;
-            _wait = wait;
-            PageFactory.InitElements(driver, this);
-            actionsHelper = new ActionsHelper(driver, wait);
-        }
-        
-        public SearchResultsPage GoToSearchResultsPage(string searchText) 
-        {
-            categories.Click();
-            music.Click();
-            searchTextField.SendKeys(searchText);
-            searchButton.Click();
-                        
-            return new SearchResultsPage(_driver, _wait);
-        }
-
-        public bool CheckPage()
-        {
-            return title.Displayed;
-        }
         
         [FindsBy(How = How.XPath, Using = ".//*[@id='gh-cat']")]
         private IWebElement categories;
@@ -50,8 +25,21 @@ namespace WebdriverApiActions.Pages
 
         [FindsBy(How = How.XPath, Using = ".//*[@id='gh-btn']")]
         private IWebElement searchButton;
+        
+        public SmartphonesPage(IWebDriver driver) : base(driver)
+        {
+            _driver = driver;
+            PageFactory.InitElements(driver, this);
+        }
 
-        [FindsBy(How = How.XPath, Using = "//*[@id='mainTitle'][contains(text(), 'Смартфоны')]")]
-        private IWebElement title;
+        public SearchResultsPage PerformSearch(string searchText)
+        {
+            Click(categories);
+            Click(music);
+            SendKeys(searchTextField, searchText);
+            Click(searchButton);
+
+            return new SearchResultsPage(_driver);
+        }
     }
 }
